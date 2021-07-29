@@ -21,7 +21,7 @@ pixel_m = median(diff(X(1,:))); % resolution: [m/pixel], meter per pixel
 
 %% 1. Define the Gaussian TIF (Tool Influence Function) parameters
 tifParams.A = 10e-9;  % Peak Removal Rate (PRR) [m]
-tifParams.lat_res_brf = pixel_m; % resolution [m/pixel]
+tifParams.lat_res_tif = pixel_m; % resolution [m/pixel]
 tifParams.d = 10e-3; % diameter [m]
 tifParams.d_pix = round(tifParams.d/pixel_m);  % diameter in pixels
 tifParams.sigma_xy = [tifParams.d/6 tifParams.d/6];  % sigma [m]

@@ -26,7 +26,7 @@ defaultOptions = struct(...
     'brfMode', 'avg',...
     'isDownSampling', false,...
     'samplingInterval', 1e-3,...
-    'ratio', 1...
+    'ratio', 1 ...
     );
 
 if nargin == 10
@@ -34,10 +34,12 @@ if nargin == 10
 end
 
 %% 1. Construct the BRF using the BRF parameters
-pixel_m = median(diff(X(1, :)));
-tif_r = 0.5 * tifParams.d;
+pixel_m = median(diff(X(1, :)));  % resolution of the surface
+tif_r = 0.5 * tifParams.d;  % radius of the TIF
+
+% generate the coordinates for the TIF in the surface resolution
 [X_B, Y_B] = meshgrid(-tif_r:pixel_m:tif_r, -tif_r:pixel_m:tif_r);
-Y_B = -Y_B;
+Y_B = -Y_B;  % change the y direction to point upwards
 
 if strcmpi(options.brfMode, 'avg')
     Bx = interp2(Xtif, Ytif, Ztifx, X_B, Y_B, 'spline'); % resize BRF

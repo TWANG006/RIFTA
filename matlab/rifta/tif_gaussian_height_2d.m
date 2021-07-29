@@ -1,4 +1,4 @@
-function Z_fitted = tif_gaussian_2d(X, Y, t, params)
+function Z_fitted = tif_gaussian_height_2d(X, Y, t, params)
 % Function:
 %   Z_fitted = tif_gaussian_2d(X, Y, t, params)
 % Purpose:

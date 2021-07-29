@@ -51,7 +51,7 @@ if strcmpi(options.tifMode, 'avg')
 else
     A = tifParams.A;   % get PRR [m/s]
     sigma_xy = tifParams.sigma_xy; % standard deviation [m]
-    B = tif_gaussian_2d(X_B, Y_B, 1, [A, sigma_xy, [0, 0]]);
+    B = tif_gaussian_height_2d(X_B, Y_B, 1, [A, sigma_xy, [0, 0]]);
 end
 d_p = size(B, 1);  % obtain the new diameter of TIF [pixel]
 r_p = floor(0.5 * d_p); % radius [pixel]
