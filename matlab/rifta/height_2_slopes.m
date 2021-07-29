@@ -14,7 +14,7 @@ hf_win_sz = round(0.5*spot_sz / mpp);   % half windows size
 Zx = zeros(m, n);
 Zy = zeros(m, n);
 
-Z = RemoveSurface1(X,Y,Z);
+Z = remove_surface(X,Y,Z);
 
 %% 1. Calculate the slope maps by sliding the window
 for i = 1 : m
@@ -29,7 +29,7 @@ for i = 1 : m
         Ywin = Y(rows, cols);
         Zwin = Z(rows, cols);   % get the window's heights
         
-        [~,~,f] = RemoveSurface1(Xwin,Ywin,Zwin); % calculate the slopes
+        [~,~,f] = remove_surface(Xwin, Ywin, Zwin); % calculate the slopes
         Zx(i,j) = f(2); % obtain the slope x
         Zy(i,j) = f(3); % obtain the slope y
     end
