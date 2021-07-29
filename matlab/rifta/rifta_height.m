@@ -1,6 +1,6 @@
 function [...
-    X_B, Y_B, ...BRF Coordinates
-    B, ... BRF
+    X_B, Y_B, ...TIF Coordinates
+    B, ... TIF
     Z_removal, Z_residual, ... full aperture results [m]
     X_P, Y_P, ...dwell grid
     T_P, ... dwell time on the dwell grid [s]
@@ -13,7 +13,7 @@ function [...
     (...
     X, Y, ...full aperture coordinates [m]
     Z_to_remove,... height to remove [m]
-    tifParams,... BRF parameters
+    tifParams,... TIF parameters
     Xtif, Ytif, ...
     Ztif, ... averaged z & its coords
     ca_range, ... Clear aperture range [pixel]
@@ -39,22 +39,24 @@ if nargin == 8
 end
 
 %% 1. Construct the TIF using the TIF parameters
-pixel_m = median(diff(X(1, :)));
-brf_r = 0.5 * tifParams.d;
-[X_B, Y_B] = meshgrid(-brf_r:pixel_m:brf_r, -brf_r:pixel_m:brf_r);
-Y_B = -Y_B;
+pixel_m = median(diff(X(1, :)));  % resolution of the surface
+tif_r = 0.5 * tifParams.d;  % radius of the TIF
+
+% generate the coordinates for the TIF in the surface resolution
+[X_B, Y_B] = meshgrid(-tif_r:pixel_m:tif_r, -tif_r:pixel_m:tif_r);
+Y_B = -Y_B;  % change the y direction to point upwards
 
 if strcmpi(options.tifMode, 'avg')
-    B = interp2(Xtif, Ytif, Ztif, X_B, Y_B, 'spline'); % resize BRF
+    B = interp2(Xtif, Ytif, Ztif, X_B, Y_B, 'spline'); % resize TIF
 else
     A = tifParams.A;   % get PRR [m/s]
     sigma_xy = tifParams.sigma_xy; % standard deviation [m]
     B = tif_gaussian_2d(X_B, Y_B, 1, [A, sigma_xy, [0, 0]]);
 end
-d_p = size(B, 1);  % obtain the new diameter of BRF [pixel]
+d_p = size(B, 1);  % obtain the new diameter of TIF [pixel]
 r_p = floor(0.5 * d_p); % radius [pixel]
-tifParams.lat_res_brf = pixel_m;   % update BRF params
-tifParams.d_pix = d_p; % update BRF params
+tifParams.lat_res_tif = pixel_m;   % update TIF params
+tifParams.d_pix = d_p; % update TIF params
 
 %% 2. Define the dwell grid
 [mM, nM] = size(Z_to_remove);  % get the size of full aperture

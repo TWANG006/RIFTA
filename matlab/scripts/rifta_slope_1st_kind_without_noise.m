@@ -14,13 +14,14 @@ winSz = 2.5e-3;  % window size used to calculate the slopes
 load([data_dir surf_file], ...
     'X', ... x coordinates
     'Y', ... y coordinates
-    'Zf' ... height map without noise
+    'Zfx', ... x slope map without noise
+    'Zfy' ... y slope map without noise
     );
 pixel_m = median(diff(X(1,:))); % resolution: [m/pixel], meter per pixel
 
 %% 1. Define the Gaussian TIF (Tool Influence Function) parameters
 tifParams.A = 10e-9;  % Peak Removal Rate (PRR) [m]
-tifParams.lat_res_tif = pixel_m; % resolution [m/pixel]
+tifParams.lat_res_brf = pixel_m; % resolution [m/pixel]
 tifParams.d = 10e-3; % diameter [m]
 tifParams.d_pix = round(tifParams.d/pixel_m);  % diameter in pixels
 tifParams.sigma_xy = [tifParams.d/6 tifParams.d/6];  % sigma [m]
@@ -43,17 +44,13 @@ ca_range.u_e = round((ca_x_e - min_x) / pixel_m); % ca x end in pixel
 ca_range.v_s = round((max_y - ca_y_e) / pixel_m); % ca y start in pixel
 ca_range.v_e = round((max_y - ca_y_s) / pixel_m); % ca y end in pixel
 
-%% 3. Height-based RIFTA
+%% 3. Slope-based RIFTA
 % Options for height-based RIFTA
-options_h = struct(...
-    'algorithm', 'fft',... algorithm to use for RIFTA, 'fft' or 'iterative-fft'
+options_s = struct(...
     'tifMode', 'model',... mode of the TIF
     'isResampling', false, ... whether to resample to dwell grid
     'resamplingInterval', 1e-3, ...resampling interval [m/pixel]
-    'ratio', 1,... ratio to be multiplied to the dwell time
-    'maxIters', 20,...maximum iteration for 'iterative-fft' algorithm
-    'rmsDif', 0.01e-9,...rms threshold for 'iterative-fft' algorithm
-    'dwellTimeDif', 30 ...dwell time difference threshold for 'iterative-fft' algorithm [s]
+    'ratio', 1 ... ratio to be multiplied to the dwell time
     );
 
 % call the height-based RIFTA function
@@ -67,7 +64,7 @@ options_h = struct(...
     [],...
     [],...
     ca_range,...
-    options_h...
+    options_s...
     );
 
 % convert the height to slope
