@@ -7,6 +7,9 @@ RIFTA is the Robust Iterative Fourier Transform based dwell time Algorithm (RIFT
 - Thresholded inverse filtering assisted by direct search [1]
 - 2D convolution using Fast Fourier Transform (FFT)
 
+## RIFTA example results
+![RIFTA results](/images/RIFTA_results.png)
+
 ## Note
 - All the units used in the code are metres unless otherwise specified.
 - The common arguments that are required for IBFest dwell time calculation include:
