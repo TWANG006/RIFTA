@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def tif_gaussian_height_2d(X, Y, t, params):
     '获取参数'
     A = params[0]

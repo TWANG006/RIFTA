@@ -1,10 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 def show_rifta_height_estimation_result( XB, YB, B,X_P, Y_P, T_P,Xca, Yca,Z_to_remove_ca, Z_residual_ca,Zx_to_remove_ca, Zx_residual_ca,Zy_to_remove_ca, Zy_residual_ca ):
-    #m,n=XB.shape
-    #print("\n", m,n)
-    #print("\n",XB)
     X_B_mm = XB * 1e3
     Y_B_mm = YB * 1e3
     B_nm = B * 1e9
@@ -40,7 +38,7 @@ def show_rifta_height_estimation_result( XB, YB, B,X_P, Y_P, T_P,Xca, Yca,Z_to_r
     ax.set_xlabel('x [mm]')
     ax.set_ylabel('y [mm]')
     # 设置视角
-    ax.view_init(elev=90, azim=0)                                   # elev: 仰角, azim: 方位角
+    ax.view_init(elev=90, azim=-90)                                   # elev: 仰角, azim: 方位角
     ax.set_zticks([])
     ax.zaxis.set_tick_params(labelcolor='w', labelbottom=False, labeltop=False)
     "保压时间"
@@ -51,7 +49,8 @@ def show_rifta_height_estimation_result( XB, YB, B,X_P, Y_P, T_P,Xca, Yca,Z_to_r
     # 移除网格线
     s.set_edgecolor('none')
     # 设置轴属性，保持图像比例
-    ax.set_aspect('equal')
+    #ax.set_aspect('equal')
+    ax.set_box_aspect([1.5, 0.5, 1])
     # 添加颜色条
     ax.shading = 'auto'
     cbar = fig.colorbar(s, ax=ax)
@@ -72,7 +71,8 @@ def show_rifta_height_estimation_result( XB, YB, B,X_P, Y_P, T_P,Xca, Yca,Z_to_r
     s = ax.plot_surface(X_ca_mm, Y_ca_mm,  Z_to_remove_ca_nm, cmap='viridis',shade=True)
     s.set_edgecolor('none')
       # 使坐标轴保持纵横比和方向
-    ax.set_box_aspect([1.5, 0.2, 1])
+    #ax.set_aspect('equal')
+    ax.set_box_aspect([1.5, 0.5, 1])
     ax.set_aspect('auto')
     # 平滑颜色过渡
     ax.shading = 'auto'
@@ -90,7 +90,8 @@ def show_rifta_height_estimation_result( XB, YB, B,X_P, Y_P, T_P,Xca, Yca,Z_to_r
     ax = fig.add_subplot(3, 4, 10, projection='3d')#10
     s = ax.plot_surface(X_ca_mm, Y_ca_mm, Z_residual_ca_nm ,cmap='viridis',shade=True)
     s.set_edgecolor('none')
-    ax.set_box_aspect([1.5, 0.2, 1])
+    #ax.set_aspect('equal')
+    ax.set_box_aspect([1.5, 0.5, 1])
     ax.set_aspect('auto')
     ax.shading = 'auto'
     finite_Z = Z_residual_ca_nm[np.isfinite(Z_residual_ca_nm)]
@@ -110,7 +111,8 @@ def show_rifta_height_estimation_result( XB, YB, B,X_P, Y_P, T_P,Xca, Yca,Z_to_r
     ax = fig.add_subplot(3, 4, 7, projection='3d')#7
     s = ax.plot_surface(X_ca_mm, Y_ca_mm, Zx_to_remove_ca_nm, cmap='viridis',shade=True)
     s.set_edgecolor('none')
-    ax.set_box_aspect([1.5, 0.2, 1])
+    #ax.set_aspect('equal')
+    ax.set_box_aspect([1.5, 0.5, 1])
     ax.set_aspect('auto')
     c = fig.colorbar(s, ax=ax)
     c.set_label('Slope [nrad]')
@@ -129,7 +131,8 @@ def show_rifta_height_estimation_result( XB, YB, B,X_P, Y_P, T_P,Xca, Yca,Z_to_r
     ax = fig.add_subplot(3, 4, 11, projection='3d')#11
     s = ax.plot_surface(X_ca_mm, Y_ca_mm, Zx_residual_ca_nm, cmap='viridis',shade=True)
     s.set_edgecolor('none')
-    ax.set_box_aspect([1.5, 0.2, 1])
+    #ax.set_aspect('equal')
+    ax.set_box_aspect([1.5, 0.5, 1])
     ax.set_aspect('auto')
     finite_Zx = Zx_residual_ca_nm[np.isfinite(Zx_residual_ca_nm)]
     pvZx = np.max(finite_Zx) - np.min(finite_Zx)
@@ -150,7 +153,8 @@ def show_rifta_height_estimation_result( XB, YB, B,X_P, Y_P, T_P,Xca, Yca,Z_to_r
     ax = fig.add_subplot(3, 4, 8, projection='3d')#8
     s = ax.plot_surface(X_ca_mm, Y_ca_mm, Zy_to_remove_ca_nm, cmap='viridis',shade=True)
     s.set_edgecolor('none')
-    ax.set_box_aspect([1.5, 0.2, 1])
+    #ax.set_aspect('equal')
+    ax.set_box_aspect([1.5, 0.5, 1])
     ax.set_aspect('auto')
     ax.shading = 'auto'
     c = fig.colorbar(s, ax=ax)
@@ -170,7 +174,8 @@ def show_rifta_height_estimation_result( XB, YB, B,X_P, Y_P, T_P,Xca, Yca,Z_to_r
     ax = fig.add_subplot(3, 4, 12, projection='3d')  # 12
     s = ax.plot_surface(X_ca_mm, Y_ca_mm, Zy_residual_ca_nm, cmap='viridis',shade=True)
     s.set_edgecolor('none')
-    ax.set_box_aspect([1.5, 0.2, 1])
+    #ax.set_aspect('equal')
+    ax.set_box_aspect([1.5, 0.5, 1])
     ax.set_aspect('auto')
     finite_Zx = Zy_residual_ca_nm[np.isfinite(Zy_residual_ca_nm)]
     pvZx = np.max(finite_Zx) - np.min(finite_Zx)
